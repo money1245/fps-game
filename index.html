@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPS Shooter - Online Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Home Screen -->
+        <div id="homeScreen" class="screen active">
+            <div class="home-container">
+                <h1 class="game-title">⚔️ FPS SHOOTER ⚔️</h1>
+                <div class="home-content">
+                    <div class="player-setup">
+                        <div class="input-group">
+                            <label for="playerName">Enter Your Name:</label>
+                            <input type="text" id="playerName" placeholder="Your nickname" maxlength="20">
+                        </div>
+
+                        <div class="character-selection">
+                            <h2>Choose Your Character</h2>
+                            <div class="characters-grid">
+                                <div class="character-card" data-character="sniper">
+                                    <div class="character-icon">🎯</div>
+                                    <h3>Sniper</h3>
+                                    <p class="weapon-type">Long Range</p>
+                                    <ul class="stats">
+                                        <li>Damage: ⭐⭐⭐⭐⭐</li>
+                                        <li>Speed: ⭐</li>
+                                        <li>Fire Rate: ⭐</li>
+                                        <li>Magazine: 8</li>
+                                    </ul>
+                                    <p class="ability">Ability: Headshot Precision</p>
+                                </div>
+
+                                <div class="character-card" data-character="machinegunner">
+                                    <div class="character-icon">🔫</div>
+                                    <h3>Machine Gunner</h3>
+                                    <p class="weapon-type">Full Auto</p>
+                                    <ul class="stats">
+                                        <li>Damage: ⭐⭐⭐</li>
+                                        <li>Speed: ⭐⭐⭐</li>
+                                        <li>Fire Rate: ⭐⭐⭐⭐⭐</li>
+                                        <li>Magazine: 30</li>
+                                    </ul>
+                                    <p class="ability">Ability: Suppressive Fire</p>
+                                </div>
+
+                                <div class="character-card" data-character="shotgunner">
+                                    <div class="character-icon">💥</div>
+                                    <h3>Shotgunner</h3>
+                                    <p class="weapon-type">Close Range</p>
+                                    <ul class="stats">
+                                        <li>Damage: ⭐⭐⭐⭐⭐</li>
+                                        <li>Speed: ⭐⭐⭐⭐</li>
+                                        <li>Fire Rate: ⭐⭐</li>
+                                        <li>Magazine: 8</li>
+                                    </ul>
+                                    <p class="ability">Ability: Blast Wave</p>
+                                </div>
+
+                                <div class="character-card" data-character="rifleman">
+                                    <div class="character-icon">🏹</div>
+                                    <h3>Rifleman</h3>
+                                    <p class="weapon-type">Balanced</p>
+                                    <ul class="stats">
+                                        <li>Damage: ⭐⭐⭐⭐</li>
+                                        <li>Speed: ⭐⭐⭐</li>
+                                        <li>Fire Rate: ⭐⭐⭐</li>
+                                        <li>Magazine: 20</li>
+                                    </ul>
+                                    <p class="ability">Ability: Quick Reload</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="game-mode-selection">
+                            <h2>Select Game Mode</h2>
+                            <div class="mode-buttons">
+                                <button class="mode-btn" data-mode="solo">
+                                    <span class="mode-icon">👤</span>
+                                    <span class="mode-name">Solo</span>
+                                </button>
+                                <button class="mode-btn" data-mode="2v2">
+                                    <span class="mode-icon">👥👥</span>
+                                    <span class="mode-name">2v2</span>
+                                </button>
+                                <button class="mode-btn" data-mode="4v4">
+                                    <span class="mode-icon">👥👥👥👥</span>
+                                    <span class="mode-name">4v4</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button id="startGameBtn" class="start-button" disabled>START GAME</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div id="gameContainer">
+                <canvas id="gameCanvas"></canvas>
+                
+                <!-- HUD (Heads-Up Display) -->
+                <div class="hud">
+                    <!-- Top Left: Player Info -->
+                    <div class="hud-section top-left">
+                        <div class="player-info">
+                            <span id="playerNameDisplay"></span> | <span id="characterDisplay"></span>
+                        </div>
+                        <div class="team-info">
+                            Team: <span id="teamDisplay"></span>
+                        </div>
+                    </div>
+
+                    <!-- Top Center: Minimap -->
+                    <div class="hud-section top-center">
+                        <canvas id="minimap" width="200" height="200"></canvas>
+                    </div>
+
+                    <!-- Top Right: Health and Ammo -->
+                    <div class="hud-section top-right">
+                        <div class="health-bar">
+                            <div class="health-fill" id="healthBar"></div>
+                            <span id="healthText">100/100</span>
+                        </div>
+                        <div class="ammo-display">
+                            <span id="ammoText">30/180</span>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Left: Controls -->
+                    <div class="hud-section bottom-left">
+                        <div class="controls-display">
+                            <p><strong>CONTROLS</strong></p>
+                            <p>W/A/S/D - Move</p>
+                            <p>SPACE - Jump</p>
+                            <p>LEFT CLICK - Shoot</p>
+                            <p>RIGHT CLICK - Aim</p>
+                            <p>R - Reload</p>
+                            <p>Q - Grenade</p>
+                            <p>E - Ability</p>
+                            <p>F - Use Lootbox</p>
+                            <p>ESC - Pause</p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Center: Crosshair -->
+                    <div class="hud-section bottom-center">
+                        <div class="crosshair"></div>
+                    </div>
+
+                    <!-- Bottom Right: Ability and Grenades -->
+                    <div class="hud-section bottom-right">
+                        <div class="ability-display">
+                            <div class="ability-icon" id="abilityIcon">E</div>
+                            <div class="ability-cooldown" id="abilityCooldown">100%</div>
+                        </div>
+                        <div class="grenade-display">
+                            <div class="grenade-count" id="grenadeCount">Q: 3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pause Menu -->
+                <div id="pauseMenu" class="pause-menu hidden">
+                    <div class="pause-content">
+                        <h1>GAME PAUSED</h1>
+                        <button id="resumeBtn" class="menu-btn">Resume Game</button>
+                        <button id="settingsBtn" class="menu-btn">Settings</button>
+                        <button id="mainMenuBtn" class="menu-btn">Main Menu</button>
+                    </div>
+                </div>
+
+                <!-- Game Over Menu -->
+                <div id="gameOverMenu" class="game-over-menu hidden">
+                    <div class="game-over-content">
+                        <h1 id="gameOverTitle">GAME OVER</h1>
+                        <div id="gameStats" class="game-stats">
+                            <p>Kills: <span id="killCount">0</span></p>
+                            <p>Deaths: <span id="deathCount">0</span></p>
+                            <p>Score: <span id="finalScore">0</span></p>
+                        </div>
+                        <button id="playAgainBtn" class="menu-btn">Play Again</button>
+                        <button id="mainMenuBtn2" class="menu-btn">Main Menu</button>
+                    </div>
+                </div>
+
+                <!-- Players List (Tab key) -->
+                <div id="playersList" class="players-list hidden">
+                    <h2>Players in Game</h2>
+                    <div id="playersListContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/network.js"></script>
+    <script src="js/character.js"></script>
+    <script src="js/weapon.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/lootbox.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
